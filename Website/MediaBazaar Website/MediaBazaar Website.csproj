@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MediaBazaar_Website</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+    <PackageReference Include="FluentAssertions" Version="6.6.0" />
+    <PackageReference Include="IdentityModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Desktop application\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\..\Desktop application\Logic\Logic.csproj" />
+    <ProjectReference Include="..\..\Desktop application\MediaBazaar\MediaBazaar.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Desktop application\MediaBazaar\MediaBazaar.csproj" />
+  </ItemGroup>
+
+</Project>

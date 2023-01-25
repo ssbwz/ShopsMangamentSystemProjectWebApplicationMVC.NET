@@ -1,0 +1,72 @@
+﻿@page
+@model MediaBazaar_Website.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="check-out">
+    <form class="checkout-form" method="post" asp-page-handler="Checkout">
+        <h2>Manual checkout</h2>
+        @if (@Model.GetLastDirection() == "IN")
+        {
+            <p>Looks like you forgot to check out! Your check in today was at @Model.LastCheckinTime(). Please check out below.</p>
+            @ViewData["Message"]
+            <input type="submit" class="submit-btn" value="Check out">
+        }
+        else
+        {
+            <p>You properly checked out today! <br /> If you ever forget to check out you can do it on this page.</p>
+        }
+    </form>
+</div>
+
+
+@section Header
+{
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+@*Setting*@
+<div class="settings-container">
+    <a class="link" asp-page="/Personal/Settings">
+        <div class="navButton">
+            <span class="material-icons">settings</span>
+        </div>
+    </a>
+</div>
+
+@*Notifications*@
+@*The next line of code: It will go through each index of the list and it will find SettingType == Notifications and it will return list 
+of Settings including setting that has notification as SettingType*@
+@if(Model.PersonSettings.Where( setting => setting.SettingType == Logic.Enums.SettingType.Notifications).ToList()[0].IsEnabled){
+<div class="dropdown">
+    <button class="dropbtn">
+        <span class="material-icons">notifications</span>
+        @if(Model.numberUnseenNotifications != null)
+        {
+        <span class="unseenNotificationNumber">@Model.numberUnseenNotifications</span>
+        }
+    </button>
+    <div class="dropdown-content">
+        <form asp-page-handler="SetNotificationToSeen" formmethod="post">
+            <input type="submit" value="Seen" id="seenButton" />
+        </form>
+        @foreach(var notification in Model.Notifications)
+        {
+        @if(notification.HasBeenSeen){
+        <div class="Seen">
+            <h4>@notification.Title</h4>
+            <a>@notification.Description</a>
+        </div>
+        }
+        else{
+        <div>
+            <h4>@notification.Title</h4>
+            <a>@notification.Description</a>
+        </div>
+        }
+
+        }
+    </div>
+</div>
+}
+}

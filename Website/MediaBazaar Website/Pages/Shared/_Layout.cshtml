@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Media Bazaar logo.png" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MediaBazaar_Website.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <section class="header">
+        <nav class="nav-container">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="nav-items">
+                    <div class="nav-link"><img id="responsiveImage" src="~/Media Bazaar logo.png"></div>
+                </div>
+                <div class="nav-items">
+                    <div class="nav-links">
+                        <ul>
+                            <li class="nav-link"><a class="navIcons" asp-page="/Index"><span class="material-icons">home</span></a></li>
+                            <li class="nav-link"><a class="navIcons" asp-page="/ViewSchedule"><span class="material-icons">schedule</span></a></li>
+                            <li class="nav-link"><a class="navIcons" asp-page="Personal/Profile"><span class="material-icons">person</span></a></li>
+                            <li class="nav-link"><a class="navIcons" asp-page="/Unavailability"><span class="material-icons">assistant_photo</span></a></li>
+                            <li class="nav-link"><a class="navIcons" asp-page="/Checkout"><span class="material-icons">swap_vert</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navEnds-container">
+                    <div class="navEnd">
+                        @RenderSection("Header",required:false)
+                    </div>
+                    <div class="navEnd">
+                        <a asp-page="/Authorization/LogOut"><span id="navIcons" class="material-icons">logout</span></a>
+                    </div>
+                </div>
+            }
+        </nav>
+    </section>
+    <div>
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

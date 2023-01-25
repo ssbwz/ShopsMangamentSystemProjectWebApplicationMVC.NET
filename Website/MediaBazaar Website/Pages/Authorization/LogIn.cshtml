@@ -1,0 +1,41 @@
+﻿@page
+@model MediaBazaar_Website.Pages.Authorization.LogInModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Media Bazaar logo.png" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div class="main">
+    <div class="login-main">
+
+        <form class="login-form" method="post">
+            
+            <div class="input">    
+                <small>@Model.Message</small>
+                <br>
+                <label>Username</label>
+                <div class="InputBox">
+                    <input asp-for="Username" type="text">                  
+                </div>
+                <span asp-validation-for="Username"></span>
+                <br>
+                <label>Password</label>
+                <div class="InputBox">
+                    <input asp-for="Password" type="password">
+                </div>
+                   <span asp-validation-for="Password"></span>
+                <button type="submit" class="submitBtn">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+    {
+<partial name="_ValidationScriptsPartial" />
+    }
+

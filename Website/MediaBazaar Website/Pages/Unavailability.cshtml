@@ -1,0 +1,142 @@
+@page
+@model MediaBazaar_Website.Pages.UnavailabilityModel
+@{
+
+    ViewData["Title"] = "Unavailability";
+
+}
+<div class="availability">
+    <div class="row">
+        <div class="availability-left">
+            <form class="availability-form" method="post" asp-page-handler="RegisterUnavailable">
+                <h2>Register unavailability</h2>
+                @ViewData["UnavailableMessage"]
+                <div class="input">
+                    <label asp-for=unavailability.StartDate>Start Date:</label>
+                    <input asp-for=unavailability.StartDate type="date" />
+                    <label asp-for=unavailability.EndDate>End Date:</label>
+                    <input asp-for=unavailability.EndDate type="date" />
+                    <select asp-for="reason" id="dropdwn" name="Reason" asp-items="UnavailabilityModel.ReasonOptions()" onchange="changeFunc()">
+                        <option value="">Choose the reason</option>
+                    </select>
+                    <div id="textboxes" style="display:none">
+                        <label asp-for="otherReason">Other reason:</label><br>
+                        <input asp-for="otherReason" />
+                    </div>
+                </div>
+                <input type="submit" class="submit-btn" value="Submit">
+            </form>
+        </div>
+        @if (@Model.Unavailable.Rows.Count != 0)
+        {
+            <div class="availability-right">
+                <h2>Unavailable days</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            @for (int i = 1; i < @Model.Unavailable.Columns.Count; i++)
+                            {
+                                <th>@Model.Unavailable.Columns[i]</th>
+                            }
+                        </tr>
+                    <thead>
+                        <tbody>
+                        @for (int i = 0; i < @Model.Unavailable.Rows.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.Unavailable.Rows[i][1]</td>
+                                <td>@Convert.ToDateTime(Model.Unavailable.Rows[i][2]).ToString("dd-MM-yyyy") </td>
+                                        @if (Model.Unavailable.Rows[i][3] is not DBNull)
+                                        {
+                                            <td>@Convert.ToDateTime(Model.Unavailable.Rows[i][3]).ToString("dd-MM-yyyy")</td>
+                                        }
+                                        else
+                                        {
+                                        <td></td>
+                                        }
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    @if (Model.sick())
+    {
+        <div class="recovered">
+            <form method="post" asp-page-handler="Recover">
+                <h2>Recovery</h2>
+                <p>You got sick on @Model.EarliestSickDate().ToString("dd-MM-yyyy"). Don't forget to register your recovery!</p>
+                @ViewData["RecoverMessage"]
+                <div class="input">
+                    <label asp-for=EndDate>End Date:</label>
+                    <input asp-for=EndDate type="date" min="@Model.MinDate" max="@Model.MaxDate"/>
+                </div>
+                <input type="submit" class="submit-btn" value="Register recovery">
+            </form>
+        </div>
+    }
+</div>
+@section Scripts{
+<script type="text/javascript">
+    function changeFunc() {
+        var selectReason = document.getElementById("dropdwn");
+        var selectedValue = selectReason.options[selectReason.selectedIndex].value;
+        if (selectedValue == "Other") {
+            $('#textboxes').css('display', 'block');
+        } else {
+            $('#textboxes').css('display', 'none');
+        }
+    }
+</script>
+}
+
+@section Header
+{
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+@*Setting*@
+<div class="settings-container">
+    <a class="link" asp-page="/Personal/Settings">
+        <div class="navButton">
+            <span class="material-icons">settings</span>
+        </div>
+    </a>
+</div>
+
+@*Notifications*@
+@*The next line of code: It will go through each index of the list and it will find SettingType == Notifications and it will return list 
+of Settings including setting that has notification as SettingType*@
+@if(Model.PersonSettings.Where( setting => setting.SettingType == Logic.Enums.SettingType.Notifications).ToList()[0].IsEnabled){
+<div class="dropdown">
+    <button class="dropbtn">
+        <span class="material-icons">notifications</span>
+        @if(Model.numberUnseenNotifications != null)
+        {
+        <span class="unseenNotificationNumber">@Model.numberUnseenNotifications</span>
+        }
+    </button>
+    <div class="dropdown-content">
+        <form asp-page-handler="SetNotificationToSeen" formmethod="post">
+            <input type="submit" value="Seen" id="seenButton" />
+        </form>
+        @foreach(var notification in Model.Notifications)
+        {
+        @if(notification.HasBeenSeen){
+        <div class="Seen">
+            <h4>@notification.Title</h4>
+            <a>@notification.Description</a>
+        </div>
+        }
+        else{
+        <div>
+            <h4>@notification.Title</h4>
+            <a>@notification.Description</a>
+        </div>
+        }
+
+        }
+    </div>
+</div>
+}
+}

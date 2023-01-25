@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SubFom\**" />
+    <EmbeddedResource Remove="SubFom\**" />
+    <None Remove="SubFom\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SubFom\**" />
+    <EmbeddedResource Remove="SubFom\**" />
+    <None Remove="SubFom\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+    <PackageReference Include="ChartDirector.Net.Desktop.Controls" Version="7.0.0" />
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Forms\Logistics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Sales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Management.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserControls\UCUpdateEmployee.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
+  </ItemGroup>
+
+</Project>

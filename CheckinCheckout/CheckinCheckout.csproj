@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.29" />
+    <PackageReference Include="NFC-ACR122U" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Desktop application\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Desktop application\Logic\Logic.csproj" />
+    <ProjectReference Include="..\Desktop application\MediaBazaar\MediaBazaar.csproj" />
+  </ItemGroup>
+
+</Project>

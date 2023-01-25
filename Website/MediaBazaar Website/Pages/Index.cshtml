@@ -1,0 +1,74 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<h1 class="welcomeMessage">Welcome @User.FindFirst("first name").Value.ToString()</h1>
+@if(User.Identity.IsAuthenticated){
+
+
+    <div class="home-nav-container">
+   <div class="flex-items">
+       <a class="indexIcons" asp-page="/ViewSchedule"><span id="navIcons" class="material-icons">schedule</span></a>
+   </div>
+   <div class="flex-items">
+        <a class="indexIcons" asp-page="Personal/Profile"><span id="navIcons" class="material-icons">person</span></a>
+   </div>
+   <div class="flex-items">
+        <a class="indexIcons" asp-page="/Unavailability"><span id="navIcons" class="material-icons">assistant_photo</span></a>
+   </div>
+   <div class="flex-items">
+        <a class="indexIcons" asp-page="/Checkout"><span id="navIcons" class="material-icons">swap_vert</span></a>
+   </div>
+</div>
+ 
+}
+@section Header
+{
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+@*Setting*@
+<div class="settings-container">
+    <a class="link" asp-page="/Personal/Settings">
+        <div class="navButton">
+            <span class="material-icons">settings</span>
+        </div>
+    </a>
+</div>
+
+@*Notifications*@
+@*The next line of code: It will go through each index of the list and it will find SettingType == Notifications and it will return list 
+of Settings including setting that has notification as SettingType*@
+@if(Model.PersonSettings.Where( setting => setting.SettingType == Logic.Enums.SettingType.Notifications).ToList()[0].IsEnabled){
+<div class="dropdown">
+    <button class="dropbtn">
+        <span class="material-icons">notifications</span>
+        @if(Model.numberUnseenNotifications != null)
+        {
+        <span class="unseenNotificationNumber">@Model.numberUnseenNotifications</span>
+        }
+    </button>
+    <div class="dropdown-content">
+        <form asp-page-handler="SetNotificationToSeen" formmethod="post">
+            <input type="submit" value="Seen" id="seenButton" />
+        </form>
+        @foreach(var notification in Model.Notifications)
+        {
+        @if(notification.HasBeenSeen){
+        <div class="Seen">
+            <h4>@notification.Title</h4>
+            <a>@notification.Description</a>
+        </div>
+        }
+        else{
+        <div>
+            <h4>@notification.Title</h4>
+            <a>@notification.Description</a>
+        </div>
+        }
+
+        }
+    </div>
+</div>
+}
+}
